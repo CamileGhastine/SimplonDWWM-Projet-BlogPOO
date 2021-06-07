@@ -1,4 +1,7 @@
 <?php
+use App\Controller\PostController;
+use App\Controller\UserController;
+use App\Controller\ErrorController;
 
 $path = dirname(__DIR__);
 

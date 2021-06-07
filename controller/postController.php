@@ -1,31 +1,30 @@
 <?php
 
-class PostController
+namespace App\Controller;
+
+require 'Controller.php';
+require dirname(__DIR__) . '/Model/PostRepository.php';
+
+use App\Controller\Controller;
+use App\Model\PostRepository;
+
+class PostController extends Controller
 {
-    public function home()
-    {
-        require dirname(__DIR__) . '/model/postRepository.php';
-        $posts = findAll();
+    private $viewRepertory = 'post/';
 
-        render('home', compact('posts'));
+    public function home(): void
+    {
+        $postRepository = new PostRepository;
+        $posts = $postRepository->findAll();
+
+        $this->render($this->viewRepertory . 'home', compact('posts'));
     }
 
-    public function show()
+    public function show(): void
     {
-        require dirname(__DIR__) .  '/model/postRepository.php';
-        $post = findOneById($_GET['id']);
+        $postRepository = new PostRepository;
+        $post = $postRepository->findOneById($_GET['id']);
 
-        render('show', compact('post'));
-    }
-
-    private function render($view, $datas)
-    {
-        extract($datas);
-
-        ob_start();
-        require dirname(__DIR__) .  '/view/post/' . $view . '.php';
-        $content = ob_get_clean();
-
-        require dirname(__DIR__) . '/view/base.php';
+        $this->render($this->viewRepertory . 'show', compact('post'));
     }
 }

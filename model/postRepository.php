@@ -1,46 +1,40 @@
 <?php
 
+namespace App\Model;
 
+require 'Entity/Post.php';
+require 'Repository.php';
 
-function findAll()
+use App\Model\Entity\Post;
+use App\Model\Repository;
+
+class PostRepository extends Repository
 {
-    $db = getDBConnection();
+    public function findAll(): array
+    {
+        $db = $this->getDBConnection();
 
-    $request = $db->query('SELECT id, title, LEFT(content, 150) as content, date, user FROM post');
-    $request->setFetchMode(PDO::FETCH_ASSOC);
+        $request = $db->query('SELECT id, title, LEFT(content, 150) as content, date, user FROM post');
+        $request->setFetchMode(\PDO::FETCH_CLASS, 'App\Model\Entity\Post');
 
-    $posts = $request->fetchAll();
+        $posts = $request->fetchAll();
 
-    $request->closeCursor();
+        $request->closeCursor();
 
-    return $posts;
-}
+        return $posts;
+    }
 
-function findOneById($id)
-{
-    $db = getDBConnection();
+    public function findOneById(int $id): Post
+    {
+        $db = $this->getDBConnection();
 
-    $request = $db->prepare('SELECT * FROM post WHERE id=?');
-    $request->execute([$id]);
-    $request->setFetchMode(PDO::FETCH_ASSOC);
+        $request = $db->prepare('SELECT * FROM post WHERE id=?');
+        $request->execute([$id]);
+        $request->setFetchMode(\PDO::FETCH_CLASS, 'App\Model\Entity\Post');
 
-    $post = $request->fetch();
+        $post = $request->fetch();
+        $request->closeCursor();
 
-    $request->closeCursor();
-
-    return $post;
-}
-
-function getDBConnection()
-{
-    try {
-        $options = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
-        ];
-        return new PDO('mysql:host=localhost;dbname=blog', 'root', '', $options);
-    } catch (PDOException $e) {
-        print "Erreur !: " . $e->getMessage() . "<br/>";
-        die();
+        return $post;
     }
 }

@@ -1,13 +1,15 @@
 <?php
 
-class UserController
-{
-    public function connect()
-    {
-        ob_start();
-        require dirname(__DIR__) . '/view/user/connectionForm.php';
-        $content = ob_get_clean();
+namespace App\Controller;
 
-        require dirname(__DIR__) . '/view/base.php';
+require 'Controller.php';
+
+class UserController extends Controller
+{
+    private $viewRepertory = 'user/';
+
+    public function connect(): void
+    {
+        $this->render($this->viewRepertory . 'connectionForm', []);
     }
 }

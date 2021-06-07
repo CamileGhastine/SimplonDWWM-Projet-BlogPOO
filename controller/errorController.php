@@ -1,13 +1,15 @@
 <?php
 
-class ErrorController
-{
-    public function error($e)
-    {
-        ob_start();
-        require dirname(__DIR__) . '/view/error/error' . $e->getMessage() . '.php';
-        $content = ob_get_clean();
+namespace App\Controller;
 
-        require dirname(__DIR__) . '/view/base.php';
+require 'Controller.php';
+
+class ErrorController extends Controller
+{
+    private $viewRepertory = 'error/';
+
+    public function error(\Exception $e): void
+    {
+        $this->render($this->viewRepertory . 'error' . $e->getMessage(), []);
     }
 }
