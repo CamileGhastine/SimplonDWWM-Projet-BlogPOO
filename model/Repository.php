@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Model;
-
 class Repository
 {
     protected function getDBConnection(): \PDO

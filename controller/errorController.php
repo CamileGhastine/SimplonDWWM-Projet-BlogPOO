@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Controller;
-
 require 'Controller.php';
 
 class ErrorController extends Controller

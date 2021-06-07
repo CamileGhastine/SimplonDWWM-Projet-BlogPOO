@@ -1,12 +1,7 @@
 <?php
 
-namespace App\Model;
-
 require 'Entity/Post.php';
 require 'Repository.php';
-
-use App\Model\Entity\Post;
-use App\Model\Repository;
 
 class PostRepository extends Repository
 {
@@ -15,7 +10,7 @@ class PostRepository extends Repository
         $db = $this->getDBConnection();
 
         $request = $db->query('SELECT id, title, LEFT(content, 150) as content, date, user FROM post');
-        $request->setFetchMode(\PDO::FETCH_CLASS, 'App\Model\Entity\Post');
+        $request->setFetchMode(\PDO::FETCH_CLASS, 'Post');
 
         $posts = $request->fetchAll();
 
@@ -30,7 +25,7 @@ class PostRepository extends Repository
 
         $request = $db->prepare('SELECT * FROM post WHERE id=?');
         $request->execute([$id]);
-        $request->setFetchMode(\PDO::FETCH_CLASS, 'App\Model\Entity\Post');
+        $request->setFetchMode(\PDO::FETCH_CLASS, 'Post');
 
         $post = $request->fetch();
         $request->closeCursor();

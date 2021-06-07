@@ -1,12 +1,7 @@
 <?php
 
-namespace App\Controller;
-
 require 'Controller.php';
 require dirname(__DIR__) . '/Model/PostRepository.php';
-
-use App\Controller\Controller;
-use App\Model\PostRepository;
 
 class PostController extends Controller
 {
